@@ -16,7 +16,7 @@ biocLite("Biostrings")
 install.packages("devtools")
 
 require(devtools)
-install_github('rCharts', 'ramnathv’)
+install_github("rCharts", "ramnathv")
 
 ```
 The others are easy.  I they should be 
