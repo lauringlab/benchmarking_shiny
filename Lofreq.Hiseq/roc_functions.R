@@ -4,10 +4,10 @@ require(Biostrings)
 require(reshape2)
 
 reference.fasta<-"./wsn33_wt_plasmid.fa"
-segments <- fasta.info(reference.fasta)
+segments <- fasta.seqlengths(reference.fasta)
 regions.bed <- data.frame(chr = gsub("[ ].*","", names(segments)), start=1, stop=segments, row.names=NULL)
 regions.bed<-mutate(regions.bed,chr=as.character(chr))
-regions.bed<-mutate(regions.bed,chr=gsub("N_A","NA",chr))
+#regions.bed<-mutate(regions.bed,chr=gsub("N_A","NA",chr))
 
 
 
@@ -15,6 +15,18 @@ possible_vars<-sum(regions.bed$stop)*3 # thre possible variants/ position
 id<-function(x){
   x<-strsplit(x,".",fixed=T)[[1]][1]
 }
+prior.seg.length<-c()
+
+for(k in 1:length(regions.bed$chr)){
+  prior.seg.length[k]<-sum(regions.bed$stop[1:k])  # the end positions of each segment relative to one sequence not including the trimming step
+}
+
+prior.seg.length<-c(0,prior.seg.length)
+
+
+mutate(regions.bed,concat.start=start+prior.seg.length[match(chr,regions.bed$chr)],concat.stop=concat.start+stop)->regions.bed
+
+melt(subset(regions.bed,select=-c(stop,start)),id.vars="chr")->regions.l
 
 seg<-function (x) {
   x <- strsplit(x, ".", fixed = T)[[1]][2]
@@ -54,4 +66,15 @@ adjust.coords<-function(roc.df,sum.df){ # adjsut the sensitivity and specificity
   sense.factor<-length(which(samp.df$category==T))/20
   TN.samp<-length(which(samp.df$category==F))
   mutate(roc.df,adj.sensitivity=sensitivity*sense.factor,FP=(TN.samp-TN.samp*specificity),adj.specificity=(possible_vars-20-FP)/((possible_vars-20)))
+}
+
+### Limit to coding regions ###
+coding<-read.csv("./data/wsn33.coding.bed.csv")
+
+coding.cut<-function(x){
+  chr<-unique(x$chr)
+  start<-coding$start[match(x$chr,coding$chr)]
+  stop<-coding$stop[match(x$chr,coding$chr)]
+  
+  subset(x,pos>start & pos<stop)
 }

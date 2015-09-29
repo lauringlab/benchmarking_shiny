@@ -25,7 +25,13 @@ shinyUI(fluidPage(
                             value=20),
                numericInput(inputId = "freq.var",
                             label = "Frequency cutoff",
-                            value=0.002)
+                            value=0.002),
+               checkboxInput("coding",
+                             label = "Only Coding region",
+                             value=F),
+               numericInput(inputId = "trim",
+                            label = "Trim segment ends",
+                            value=0)
         ),
         column(3,
                radioButtons("method",
