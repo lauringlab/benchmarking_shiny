@@ -1,17 +1,23 @@
 ## Read in data
 
-summaries<-c("BH.25.sum.csv",  "BH.30.sum.csv",  "bon.25.sum.csv", "bon.30.sum.csv")
-read_data_files<-c("BH.25.reads.csv",  "BH.30.reads.csv",   "bon.25.reads.csv", "bon.30.reads.csv")
+method<-c("BH","bonferroni")
+disp<-c("one.sided","two.sided","bin")
+dups<-c("no.dups","with.dups")
 
-for(i in 1:4){
-  
-sum.data<-summaries[i]
-read.data<-read_data_files[i]
+
+for(i in 1:length(method)){
+  for( j in 1:length(disp)){
+    for(k in 1:length(dups)){
+
+
+
+sum.data<-paste(dups[k],method[i],disp[j],"sum.csv",sep=".")
+read.data<-paste(dups[k],method[i],disp[j],"reads.csv",sep=".")
 
 sum.df<-read.csv(paste0("./data/",sum.data),stringsAsFactors=F)
 sum.df$Id[sum.df$Id=="3_03"]<-"3_02" # correct a naming error
 
-WT<-subset(sum.df,grepl("WT",Id)) # Separate WT samples 
+WT<-subset(sum.df,grepl("WT",Id)) # Separate WT samples
 sum.df<-subset(sum.df,!(grepl("WT",Id)))
 
 pat<-"([0-9]+)_([0-9]+)"
@@ -21,7 +27,7 @@ mutate(sum.df, gc = sub(pat,"\\1",Id),
 mutate(sum.df,exp.freq=ifelse(test = grepl("0",exp.freq),yes=as.numeric(exp.freq)/1000,no = as.numeric(exp.freq)/100))->sum.df
 
 # TF column
-true_snv<-read.csv("./data/mutant_id.csv",stringsAsFactor=F) # get the TP 
+true_snv<-read.csv("./data/mutant_id.csv",stringsAsFactor=F) # get the TP
 sum.df<-mutate(sum.df,category=mutation %in% true_snv$mutant) # add Column for True and false variants
 wt1_mut<-subset(WT,Id=="WT1",select=mutation)
 wt2_mut<-subset(WT,Id=="WT2",select=mutation)
@@ -42,4 +48,6 @@ read.df<-mutate(read.df,category=sum.df$category[match(Mutation,sum.df$mutation)
 
 write.csv(sum.df,paste0("./processed_data/",sum.data))
 write.csv(read.df,paste0("./processed_data/",read.data))
+    }
+  }
 }
