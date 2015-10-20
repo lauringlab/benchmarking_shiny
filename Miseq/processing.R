@@ -56,7 +56,7 @@ for(i in 1:length(lo.freqsum)){
   true_snv<-read.csv("./data/PR8_WSN33.csv",comment.char = '#')
   true_snv<-subset(true_snv,Ref!="-" & Allele.1!="-")
   mutate(true_snv,mutant=paste0(Name,"_",Ref,Ref.Pos,Allele.1))->true_snv
-  
+  sum.df<-mutate(sum.df,p.val=10^(QUAL/-10))
   PR8_var<-read.csv("./data/PR8_variants.csv",comment.char = "#")
   
   mutate(PR8_var,mutant=paste0(Name,"_",Ref,Ref.Pos,Allele.1))->PR8_var
