@@ -1,18 +1,11 @@
 ## Read in data
 
-method<-c("BH","bonferroni")
-disp<-c("one.sided","two.sided","bin")
-dups<-c("no.dups","with.dups")
+require(plyr)
+require(reshape2)
+deep.sum<-list.files(path = "./data/",pattern = "sum.csv")
 
-
-for(i in 1:length(method)){
-  for( j in 1:length(disp)){
-    for(k in 1:length(dups)){
-
-
-
-sum.data<-paste(dups[k],method[i],disp[j],"sum.csv",sep=".")
-read.data<-paste(dups[k],method[i],disp[j],"reads.csv",sep=".")
+for (i in 1:length(deep.sum)){
+sum.data<-deep.sum[i]
 
 sum.df<-read.csv(paste0("./data/",sum.data),stringsAsFactors=F)
 sum.df$Id[sum.df$Id=="3_03"]<-"3_02" # correct a naming error
@@ -39,15 +32,13 @@ sum.df$category[sum.df$mutation %in% wt_mut]<-"wt"
 
 ### read data
 
-read.df<-read.csv(paste0("./data/",read.data),stringsAsFactors=F)
+#read.df<-read.csv(paste0("./data/",read.data),stringsAsFactors=F)
 
 
-read.df<-mutate(read.df,category=sum.df$category[match(Mutation,sum.df$mutation)])
+#read.df<-mutate(read.df,category=sum.df$category[match(Mutation,sum.df$mutation)])
 
 ## write data
 
 write.csv(sum.df,paste0("./processed_data/",sum.data))
-write.csv(read.df,paste0("./processed_data/",read.data))
-    }
-  }
+#write.csv(read.df,paste0("./processed_data/",read.data))
 }

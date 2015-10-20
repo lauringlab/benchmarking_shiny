@@ -26,12 +26,9 @@ shinyUI(fluidPage(
                numericInput(inputId = "freq.var",
                             label = "Frequency cutoff",
                             value=0.002),
-               checkboxInput("coding",
-                             label = "Only Coding region",
-                             value=F),
-               numericInput(inputId = "trim",
-                            label = "Trim segment ends",
-                            value=0)
+               numericInput(inputId = "p.val",
+                            label = "p value cutoff",
+                            value=0.01)
         ),
         column(3,
                radioButtons("method",
@@ -39,9 +36,16 @@ shinyUI(fluidPage(
                             choices=list("Bonferroni" = "bon", 
                                          "BH" = "BH"),
                             selected='bon'),
-               numericInput(inputId = "p.val",
-                            label = "p value cutoff",
-                            value=0.01)
+               radioButtons("dups",
+                            label= " Read Duplicates",
+                            choices=list("with duplicates" = "with", 
+                                         "remove duplicates" = "no")),
+               radioButtons("disp",
+                            label= "DeepSNV dispersion",
+                            choices=list("Binomial" = "bin", 
+                                         "Betabin one sided" = "one.sided",
+                                         "Betabin two sided" = "two.sided"))
+               
         ),
         
         column(3,
@@ -59,37 +63,40 @@ shinyUI(fluidPage(
                                   label = "Expected frequency for table and plots", 
                                   choices = list("5%"=0.05,"2%"=0.02,"1%"=0.01,"0.5%"=0.005,"0.2%"=0.002,"0.1%"=0.001),
                                   selected = c(0.05,0.02,0.01,0.005))
-               ),
+        ),
         column(3,
-               radioButtons("q",
-                            label="Phred cut off",
-                            choices=list("25"="25","30"="30"),
-                            selected="25"),
+               checkboxInput("coding",
+                             label = "Only Coding region",
+                             value=F),
+               numericInput(inputId = "trim",
+                            label = "Trim segment ends",
+                            value=0),
                sliderInput("pos",
-                            label="Read position cut off",
-                           min = 0, max = 125, value = c(32, 94)),
-               actionButton("save","Save Output")
+                           label="Read position cut off",
+                           min = 0, max = 125, value = c(31, 94)),
+               actionButton("save","Save Output"),
+               submitButton(text = "Apply Changes", icon = NULL, width = NULL)
         )
       )
     ),
     tabPanel("Remaining Variants",
-      fluidRow(
-        column(12,
-               plotOutput("samp.dis"),
-               plotOutput("freq"),
-               plotOutput("mean.pos"),
-               plotOutput("mean.phred"),
-               plotOutput("mean.mapq"),
-               plotOutput("position")
+             fluidRow(
+               column(12,
+                      plotOutput("samp.dis"),
+                      plotOutput("freq"),
+                      plotOutput("mean.pos"),
+                      plotOutput("mean.phred"),
+                      plotOutput("mean.mapq"),
+                      plotOutput("position")
                )
-      )  
+             )  
     ),
     tabPanel("Progess",
-        fluidRow(
-          column(12,
-                 tableOutput("saved.table")
-          )
-        )  
+             fluidRow(
+               column(12,
+                      tableOutput("saved.table")
+               )
+             )  
     )
   )  
 ))

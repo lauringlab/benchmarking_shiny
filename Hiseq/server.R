@@ -7,21 +7,19 @@ require(ggplot2)
 source("./roc_functions.R")
 pat<-"([0-9]+)_([0-9]+)"
 
-bon.25.sum<-read.csv("./processed_data/bon.25.sum.csv",stringsAsFactors = F)
-bon.30.sum<-read.csv("./processed_data/bon.30.sum.csv",stringsAsFactors = F)
-BH.25.sum<-read.csv("./processed_data/BH.25.sum.csv",stringsAsFactors = F)
-BH.30.sum<-read.csv("./processed_data/BH.30.sum.csv",stringsAsFactors = F)
+table.save<-data.frame(samp=numeric(0),mean.fp=numeric(0),mean.tp=numeric(0),correction=factor(levels=c("bon","BH")),p.val=numeric(0),MapQ=numeric(0),freq=numeric(0),read.range=numeric(0),dups=factor(levels=c("no","with")),distribution=factor(levels=c("two.sided","one.sided","bin")))
 
-table.save<-data.frame(samp=numeric(0),mean.fp=numeric(0),mean.tp=numeric(0),correction=factor(levels=c("bon","BH")),p.val=numeric(0),MapQ=numeric(0),freq=numeric(0),read.range=numeric(0),q=factor(levels = c("25","30")))
 
 shinyServer(function(input, output) {
 
   
   dataInput<-reactive({  #### changes to data used ##########
-      if(input$method=="bon" & input$q=="25") return(bon.25.sum)
-      if(input$method=="bon" & input$q=="30") return(bon.30.sum)
-      if(input$method=="BH" & input$q=="25") return(BH.25.sum) 
-      if(input$method=="BH" & input$q=="30") return(BH.30.sum)
+    criteria<-paste(input$dups,input$method,input$disp,'$',sep=".*")
+    file<-list.files(path = "./processed_data",pattern = criteria,full.names = T)
+    print(file)
+
+    sum.df.raw<-read.csv(file,comment.char='#',stringsAsFactors = F)
+    return(sum.df.raw)
   })
   
   
@@ -148,7 +146,7 @@ observeEvent(input$save,{
   remain.df<-data.remain()
   table.out<-ddply(remain.df,~gc+exp.freq,summarize,wt_mut=length(which(category=="wt")),FP=length(which(category==F)),TP=length(which(category==T)),FDR=(possible_vars-20-length(wt_mut)-FP)/(possible_vars-20-length(wt_mut)),TDR=TP/20)
   
-  saved<-summarize(table.out,samp=length(gc),mean.fp=mean(FP),mean.tp=mean(TP),correction=input$method,p.val=input$p.val,MapQ=input$MapQ,freq=input$freq.var,read.range=input$pos[2]-input$pos[1],q=input$q)
+  saved<-summarize(table.out,samp=length(gc),mean.fp=mean(FP),mean.tp=mean(TP),correction=paste(input$method),p.val=input$p.val,MapQ=input$MapQ,freq=input$freq.var,read.range=input$pos[2]-input$pos[1],dups=input$dups,distribution=input$disp)
   
   table.save[input$save,]<<-saved
   output$saved.table<-renderTable({
