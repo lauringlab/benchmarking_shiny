@@ -20,50 +20,47 @@ shinyUI(fluidPage(
              hr(),
              fluidRow(
                column(3,
-                      numericInput(inputId = "MapQ",
-                                   label = "Mean MapQ cutoff",
-                                   value=20),
-                      numericInput(inputId = "freq.var",
-                                   label = "Frequency cutoff",
-                                   value=0.002),
-                      checkboxInput("coding",
-                                    label = "Only Coding region",
-                                    value=F),
-                      numericInput(inputId = "trim",
-                                   label = "Trim segment ends",
-                                   value=0)
-               ),
+               numericInput(inputId = "MapQ",
+                            label = "Mean MapQ cutoff",
+                            value=20),
+               numericInput(inputId = "freq.var",
+                            label = "Frequency cutoff",
+                            value=0.002),
+               numericInput(inputId = "p.val",
+                            label = "p value cutoff",
+                            value=0.01)
+        		),
                column(3,
-                      
-                      numericInput(inputId = "p.val",
-                                   label = "p value cutoff",
-                                   value=0.01)
-               ),
+				radioButtons("gc_roc",
+                            label= "Genome copy input for ROC",
+                            choices=list("10^5" = "5", 
+                                         "10^4" = "4", "10^3" = "3"),
+                            selected = "5"),
+               checkboxGroupInput("gc", 
+                                  label = "Genome copy table and plots", 
+                                  choices = list("10^5" = "5", 
+                                                 "10^4" = "4", "10^3" = "3","10^2"="2"),
+                                  selected = c("5","4")),
+               checkboxGroupInput("exp.freq", 
+                                  label = "Expected frequency for table and plots", 
+                                  choices = list("5%"=0.05,"2%"=0.02,"1%"=0.01,"0.5%"=0.005,"0.2%"=0.002,"0.1%"=0.001),
+                                  selected = c(0.05,0.02,0.01,0.005))
+                ),
                
                column(3,
-                      radioButtons("gc_roc",
-                                   label= "Genome copy input for ROC",
-                                   choices=list("10^5" = "5", 
-                                                "10^4" = "4", "10^3" = "3"),
-                                   selected = "5"),
-                      checkboxGroupInput("gc", 
-                                         label = "Genome copy table and plots", 
-                                         choices = list("10^5" = "5", 
-                                                        "10^4" = "4", "10^3" = "3","10^2"="2"),
-                                         selected = c("5","4")),
-                      checkboxGroupInput("exp.freq", 
-                                         label = "Expected frequency for table and plots", 
-                                         choices = list("5%"=0.05,"2%"=0.02,"1%"=0.01,"0.5%"=0.005,"0.2%"=0.002,"0.1%"=0.001),
-                                         selected = c(0.05,0.02,0.01,0.005))
-               ),
-               column(3,
-
-                      sliderInput("pos",
-                                  label="Read position cut off",
-                                  min = 0, max = 125, value = c(32, 94)),
-                      actionButton("save","Save Output")
-               )
-             )
+                      checkboxInput("coding",
+                             label = "Only Coding region",
+                             value=F),
+               numericInput(inputId = "trim",
+                            label = "Trim segment ends",
+                            value=0),
+               sliderInput("pos",
+                           label="Read position cut off",
+                           min = 0, max = 125, value = c(31, 94)),
+               actionButton("save","Save Output"),
+               submitButton(text = "Apply Changes", icon = NULL, width = NULL) 
+        )
+      )
     ),
     tabPanel("Remaining Variants",
              fluidRow(

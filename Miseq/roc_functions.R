@@ -79,6 +79,7 @@ adjust.coords<-function(roc.df,sum.df){ # adjsut the sensitivity and specificity
   samp.df<-subset(sum.df,Id==samp)
   sense.factor<-length(which(samp.df$category==T))/possible_tp
   TN.samp<-length(which(samp.df$category==F))
+  print(possible_tp)
   mutate(roc.df,adj.sensitivity=sensitivity*sense.factor,FP=(TN.samp-TN.samp*specificity),adj.specificity=(possible_vars-possible_tp-FP)/((possible_vars-possible_tp)))
 }
 

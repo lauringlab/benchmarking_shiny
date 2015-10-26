@@ -1,3 +1,5 @@
+### NOTE tp are not removed from lofreq based on possition
+
 ## server.r
 require(shiny)
 require(rCharts)
@@ -50,6 +52,20 @@ shinyServer(function(input, output) {
     }
   })  
   
+  tp.c<-reactive({
+    true_snv<-read.csv("./data/PR8_WSN33.csv",comment.char = "#")
+    true_snv$chr<-true_snv$Name
+    true_snv<-subset(true_snv,Ref!="-" & Allele.1!="-")
+    mutate(true_snv,mutant=paste0(Name,"_",Ref,Ref.Pos,Allele.1),pos=Ref.Pos)->true_snv
+    if(input$coding==T){
+      
+      true_snv<-ddply(true_snv,~chr,coding.cut)
+      return(true_snv)
+    }else{
+      return(true_snv)
+    }
+  })  
+  
   data<-reactive({
     regions.trim<-mutate(regions.bed,start=start+input$trim,stop=stop-input$trim)
     sum.df<-data.c()
@@ -81,14 +97,40 @@ shinyServer(function(input, output) {
       return(sum.df)
     }
   })  
+  
+  tp<-reactive({
+    regions.trim<-mutate(regions.bed,start=start+input$trim,stop=stop-input$trim)
+    sum.df<-tp.c()
+    if(input$coding==F){
+      sum.df<-ddply(sum.df,~chr,function(x){
+        chr<-unique(x$chr)
+        start<-regions.trim$start[match(x$chr,regions.trim$chr)]
+        stop<-regions.trim$stop[match(x$chr,regions.trim$chr)]
+        
+        subset(x,pos>start & pos<stop)
+      })
+    }else{
+      return(sum.df)
+    }
+  })  
   output$myChart <- renderChart2({
     sum.df<-data()
+    true_snv<-tp()
+    tp<-unique(true_snv$mutant)
+    possible_tp<-length(tp)
     cut.df<-subset(x=sum.df,MapQ>input$MapQ & freq.var>input$freq.var& Read_pos<input$pos[2] & Read_pos>input$pos[1]& exp.freq %in% input$exp.freq) ##### to subset of data plotted ########
    
     roc.ls<-dlply(cut.df,~Id,sum_roc)
 
     roc.df<-roc_df(roc.ls)
-
+    adjust.coords<-function(roc.df,sum.df){ # adjsut the sensitivity and specificity called by pROC  
+      samp<-roc.df$samp[1]
+      samp.df<-subset(sum.df,Id==samp)
+      sense.factor<-length(which(samp.df$category==T))/possible_tp
+      TN.samp<-length(which(samp.df$category==F))
+      print(possible_tp)
+      mutate(roc.df,adj.sensitivity=sensitivity*sense.factor,FP=(TN.samp-TN.samp*specificity),adj.specificity=(possible_vars-possible_tp-FP)/((possible_vars-possible_tp)))
+    }
     roc.df.adj<-ddply(roc.df,~samp,adjust.coords,cut.df)
     r_plot<-subset(roc.df.adj,is.finite(threshold))
     r_plot<-mutate(r_plot,FDR=1-adj.specificity,threshold=format(threshold,scientific=T,digits=3),TP=adj.sensitivity*possible_tp)
