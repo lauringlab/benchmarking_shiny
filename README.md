@@ -8,6 +8,10 @@ git clone https://github.com/lauringlab/benchmarking_shiny.git
 ```
 you should be prompted for your username and password.
 
+You will also need the data files.  These are found in the Box sync folder JT McCrone/benchmarking_shiny_data.  Copy the folder Hiseq/processed_data into a folder named processed_data in the Hiseq directory of the benchmarking_shiny folder.  Do the same for the Miseq data set.
+
+
+
 To run the app you will need several R libraries.  Some are tricky and don't come from CRAN. To install them in R use
 
 ```R
