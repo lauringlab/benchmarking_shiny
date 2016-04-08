@@ -46,4 +46,4 @@ install.packages("ggplot2")
 install.packages("plyr")
 install.packages("reshape2")
 ```
-*Note : I am working to make the app even faster and perhaps host it online -JT*
+*Note : I am working to make the app even faster and perhaps host it online. Also the save output button doesn't work yet. -JT*
