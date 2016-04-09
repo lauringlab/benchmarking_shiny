@@ -2,11 +2,20 @@
 
 This directory is a shiny app that runs a summary of our validation analysis presented in *McCrone and Lauring, 2016*. 
 
-The large csv files that are used in this analysis are curated by git-lfs for large files. You may need to install git-lfs to get the files. Instructions for this can be found at *https://git-lfs.github.com*
 
 
 ## Dependencies 
-## R
+The large csv files that are used in this analysis are curated by git-lfs for large files. You may need to install git-lfs to get the files. Instructions for this can be found at *https://git-lfs.github.com*.
+
+Once you have git-lfs installed and have cloned or downloaded this repository you will need to get the large data files that are used by the app. You can do this by running the following commands from inside the repository directory.
+
+```bash
+git lfs fetch
+git lfs checkout 
+```
+The files should be downloaded and updated.
+
+### R
 * Biostrings
 * rCharts
 * pROC
