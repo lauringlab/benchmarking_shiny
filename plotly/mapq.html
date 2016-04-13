@@ -1,0 +1,62 @@
+<head>
+<!--Plotly.js-->
+        <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+        <body>
+<div class="plot" id="plotQual"></div>
+
+
+
+
+
+<!-- <div data-role="fieldcontain">
+	<label for="slider">Input slider:</label>
+ 	<input type="range" name="slider" id="slider" value="0" min="0" max="100"  />
+</div>
+<button id='submit'>Submit</button>
+-->
+
+
+<script>
+
+
+        var trace1 = {
+            x: [30,40],
+            y: [10,30],
+            mode: 'markers',
+            name : "False Positives"
+
+        };
+        var trace2 ={
+            x: [36,42],
+            y: [36,38],
+            mode: 'markers',
+            name : "True Positives"
+
+        };
+		var trace3 = {
+			x: [30,30],
+            y: [0,42],
+            mode: 'lines',
+            name : "Phred cutoff"
+        };
+        var trace4 = {
+			x: [30,42],
+            y: [0,0],
+            mode: 'lines',
+            name : "MapQ cutoff"
+        };
+
+        var data = [trace1,trace2,trace3,trace4];
+
+        var layout = {
+            title:'Quality Distributions',
+            height: 400,
+            width: 480
+        };
+        Plotly.newPlot('plotQual', data, layout);
+
+
+
+        </script>
+        </body>
