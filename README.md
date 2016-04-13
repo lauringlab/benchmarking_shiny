@@ -2,7 +2,7 @@
 
 This directory is a shiny app that runs a summary of our validation analysis presented in *McCrone and Lauring, 2016*. 
 
-One of the draw backs to the shiny app is that it can take a litte work to get it up and running. We have made a lighter version of the app that is hosted here *http://lauringlab.github.io/benchmarking_shiny/*. This version of the app only deals with the data presented in the paper, it does not provide means for changing as many variables as the shiny app. Give it a look. Currently each plot can only get 500 views a day. I'm not sure if that will be a problem but I'm working on a work around. Also please note that only variant with p<0.01 are included in the app so the ROC may appear slightly truncated to what is seen in the paper figures.
+One of the draw backs to the shiny app is that it can take a litte work to get it up and running. We have made a lighter version of the app that is hosted here *http://lauringlab.github.io/benchmarking_shiny/*. This version of the app only deals with the data presented in the paper, it does not provide means for changing as many variables as the shiny app. Give it a look. Currently each plot can only get 500 views a day. I'm not sure if that will be a problem but I'm working on a work around. Also please note that only variants with p<0.01 are included in the app so the ROC may appear slightly truncated compared to what is seen in the paper figures.
 
 ## Dependencies 
 The large csv files that are used in this analysis are curated by git-lfs for large files. You may need to install git-lfs to get the files. Instructions for this can be found at *https://git-lfs.github.com*.
