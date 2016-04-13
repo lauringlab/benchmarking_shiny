@@ -1,4 +1,4 @@
-# Visualization of data in *McCrone and Lauring, 2016*
+# Visualization of the data presented in "Measurements of intrahost viral diversity are extremely sensitive to systematic errors in variant calling"
 
 This directory is a shiny app that runs a summary of our validation analysis presented in *McCrone and Lauring, 2016*. 
 
