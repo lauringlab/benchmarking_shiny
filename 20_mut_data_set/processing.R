@@ -37,7 +37,6 @@ mutate(sum.df, gc = sub(pat,"\\1",Id),
 )-> sum.df
 mutate(sum.df,exp.freq=ifelse(test = grepl("0",exp.freq),yes=as.numeric(exp.freq)/1000,no = as.numeric(exp.freq)/100))->sum.df
 
-sum.df<-subset(sum.df,exp.freq>0.001 & gc >2) 
 
 sum.df<-ddply(sum.df,~chr,primer.cut) # removes any variants outside of priming sites (in this case it removes 0)
 # Id the variants as T or F 
