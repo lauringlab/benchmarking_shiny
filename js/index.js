@@ -425,7 +425,8 @@ function makeRocPlot(){
       title:'ROC curve',
       height: 400,
       //width: 450,
-      barmode : 'group'
+      xaxis : {range : [0,0.005]},
+      yaxis : {range : [0,1]}
 };
 Plotly.newPlot('rocPlot', data, layout);
 }
