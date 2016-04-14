@@ -25,7 +25,6 @@ Here you can choose :
 
 Feel free to try it out before downloading the Shiny version.  Please note that only variants with p<0.01 are included in the app so the ROC may appear slightly truncated compared to what is seen in the paper figures.
 
-*Currently each plot can only get 500 views a day. I'm not sure if that will be a problem but I'm working on a work around.*
 
 ## Dependencies 
 The large csv files that are used in this analysis are curated by git-lfs for large files. You may need to install git-lfs to get the files. Instructions for this can be found at https://git-lfs.github.com.
