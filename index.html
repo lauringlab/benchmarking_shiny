@@ -6,9 +6,13 @@
 
 
 
-    <link rel='stylesheet prefetch' href='http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css'>
+    <link rel='stylesheet' href='./css/jquery-ui.css'>
 
-        <link rel="stylesheet" href="./index.css">
+    <link rel="stylesheet" href="./css/index.css">
+    <script src='./js/jquery-2.1.4.min.js'></script>
+  <script src='./js/jquery-ui.min.js'></script>
+  <script src='./js/jquery.csv.js'></script>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
 
 
 
@@ -16,10 +20,13 @@
   </head>
 
   <body>
-	<iframe id="qualPlot" width="350" height="400" frameborder="0" seamless="seamless" scrolling="no" src= "https://plot.ly/~jtmccr1/24.embed"></iframe>
-  <iframe id="readPlot" width="400" height="400" frameborder="0" seamless="seamless" scrolling="no" src="https://plot.ly/~jtmccr1/16.embed"></iframe>
+    <div class="plot" id="qualPlot"></div>
+    <div class="plot" id="readPlot"></div>
+    <div class="plot" id="rocPlot"></div>
+	<!-- <iframe id="qualPlot" width="350" height="400" frameborder="0" seamless="seamless" scrolling="no" src= "./qual.html"></iframe>
+ <iframe id="readPlot" width="400" height="400" frameborder="0" seamless="seamless" scrolling="no" src="https://plot.ly/~jtmccr1/16.embed"></iframe>
   <iframe id="rocPlot" width="450" height="400" frameborder="0" seamless="seamless" scrolling="no" src="https://plot.ly/~jtmccr1/21.embed"></iframe>
-
+-->
 <div class="row">
     Titer
     <div class="slider" id="Titer"></div><span class="val" id="Titer_val"></span>
@@ -43,11 +50,7 @@
     <div class="slider" id="ReadPosMax"></div>
     <span class="val" id="ReadPosMax_val"></span>
 </div>
-    <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
-	<script src='http://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js'></script>
-	<script src="http://jquery-csv.googlecode.com/git/src/jquery.csv.js"></script>
-
-        <script src="./index.js"></script>
+  <script src="./js/index.js"></script>
 
 
 

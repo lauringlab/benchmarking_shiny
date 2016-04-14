@@ -1,2 +1,16 @@
 .slider{ width: 200px; display: inline-block; margin-left: 10pt; margin-right: 10pt; }
 .row{ display: block; margin: 10px 0; }
+
+
+#qualPlot {
+  float:left;
+  width: 25%;
+}
+#readPlot {
+  float:left;
+  width:35%;
+}
+#rocPlot {
+  float:left;
+  width:40%;
+}

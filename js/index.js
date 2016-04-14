@@ -295,11 +295,167 @@ function roc(data){
 return [[roc05[0],roc02[0],roc01[0],roc005[0],roc002[0]],[roc05[1],roc02[1],roc01[1],roc005[1],roc002[1]]]
 }
 
-var qualplot = $('#qualPlot')[0].contentWindow;
-var readplot = $('#readPlot')[0].contentWindow;
-var rocplot = $('#rocPlot')[0].contentWindow;
 
 
+
+// Functions to make plots
+
+function makeQualPlot(){
+var trace1 = {
+    x: [30,40],
+    y: [10,30],
+    mode: 'markers',
+    name : "False Positives"
+};
+var trace2 ={
+    x: [36,42],
+    y: [36,38],
+    mode: 'markers',
+    name : "True Positives"
+};
+var trace3 = {
+x: [30,30],
+    y: [0,42],
+    mode: 'lines',
+    name : "Phred cutoff",
+    marker : {color : 'black'},
+    line: {
+      dash: 'dashdot',
+      width: 2
+    }
+};
+var trace4 = {
+x: [30,42],
+    y: [0,0],
+    mode: 'lines',
+    name : "MapQ cutoff",
+    marker : {color : 'black'},
+    line: {
+      dash: 'dashdot',
+      width: 2
+    }
+};
+var data = [trace1,trace2,trace3,trace4];
+var layout = {
+    title:'Quality Distributions',
+    height: 400,
+  //  width: 350
+};
+Plotly.newPlot('qualPlot', data, layout);
+}
+function makeReadPlot(){
+  var trace1 = {
+      x: [30,40],
+      y: [10,30],
+      type: 'bar',
+      name : "False Positives"
+  };
+  var trace2 ={
+      x: [36,42],
+      y: [36,38],
+      type: 'bar',
+      name : "True Positives"
+  };
+  var trace3 = {
+  x: [0,0],
+      y: [0,215],
+      mode: 'lines',
+      name : "Minimal Read Position",
+      marker : {color : 'black'},
+      line: {
+        dash: 'dashdot',
+        width: 2
+      }
+  };
+  var trace4 = {
+  x: [125,125],
+      y: [0,215],
+      mode: 'lines',
+      name : "Maximal Read Position",
+      marker : {color : 'black'},
+      line: {
+        dash: 'dashdot',
+        width: 2
+      }
+  };
+  var data = [trace1,trace2,trace3,trace4];
+  var layout = {
+      title:'Distribution on read',
+      height: 400,
+    //  width: 400,
+      barmode : 'group'
+  };
+  Plotly.newPlot('readPlot', data, layout);
+}
+function makeRocPlot(){
+  var trace1 = {
+      x: [30,40],
+      y: [10,30],
+      mode: 'lines',
+      name : "5.0%"
+  };
+  var trace2 ={
+      x: [36,42],
+      y: [36,38],
+      mode: 'lines',
+      name : "2.0%"
+  };
+  var trace3 = {
+  x: [0,0],
+      y: [0,215],
+      mode: 'lines',
+      name : "1.0%"
+  };
+  var trace4 = {
+  x: [125,125],
+      y: [0,215],
+      mode: 'lines',
+      name : "0.05%"
+
+  };
+  var trace5 = {
+  x: [125,125],
+      y: [0,215],
+      mode: 'lines',
+      name : "0.02%"
+
+  };
+  var data = [trace1,trace2,trace3,trace4,trace5];
+  var layout = {
+      title:'ROC curve',
+      height: 400,
+      //width: 450,
+      barmode : 'group'
+};
+Plotly.newPlot('rocPlot', data, layout);
+}
+/// Functions to update plots
+function upQualPlot(fpPhred,fpMapQ,tpPhred,tpMapQ,phredCutX,phredCutY,mapqCutX,mapqCutY){
+
+  var update = {x : [fpPhred,tpPhred,mapqCutX,phredCutX], y : [fpMapQ,tpMapQ,mapqCutY,phredCutY]};
+  //console.log(data)
+  Plotly.restyle('qualPlot', update);
+
+}
+
+function upReadPlot(fpPosX,tpPosX,readCutMinX,readCutMaxX,fpPosY,tpPosY,readCutMinY,readCutMaxY){
+
+  var update = {x : [fpPosX,tpPosX,readCutMinX,readCutMaxX], y: [fpPosY,tpPosY,readCutMinY,readCutMaxY]};
+  //console.log(data)
+  Plotly.restyle('readPlot', update);
+
+}
+function upRocPlot(rocData){
+
+  var update = {x : rocData[0], y: rocData[1]}
+  Plotly.restyle('rocPlot', update);
+
+}
+
+//make plots to start
+makeQualPlot()
+makeReadPlot()
+makeRocPlot()
 function go() {
     var vals = getVals(),
         data = selectData(vals.Titer,vals.MapQ,vals.Phred,vals.ReadPosMin,vals.ReadPosMax, plotData),
@@ -325,57 +481,10 @@ function go() {
         //console.log(tpMapQ);
         var rocData=roc(data);
         //console.log(rocData);
-    qualplot.postMessage(
-        {
-            task: 'restyle',
-            update: {x : [fpPhred,tpPhred,mapqCutX,phredCutX], y : [fpMapQ,tpMapQ,mapqCutY,phredCutY]}
-        },
-        'https://plot.ly');
-    readplot.postMessage(
-        {
-            task: 'restyle',
-            update: {x : [fpPosX,tpPosX,readCutMinX,readCutMaxX], y: [fpPosY,tpPosY,readCutMinY,readCutMaxY]}
-        },
-        'https://plot.ly');
-    rocplot.postMessage(
-        {
-            task: 'restyle',
-            update: {x : rocData[0], y: rocData[1]}
-        },
-        'https://plot.ly');
+    //console.log(fpPhred)
+  /// Make qaul plot
+        upQualPlot(fpPhred,fpMapQ,tpPhred,tpMapQ,phredCutX,phredCutY,mapqCutX,mapqCutY);
+        upReadPlot(fpPosX,tpPosX,readCutMinX,readCutMaxX,fpPosY,tpPosY,readCutMinY,readCutMaxY)
+        upRocPlot(rocData)
 }
-
-var pinger = setInterval(function(){
-    qualplot.postMessage({task: 'ping'}, 'https://plot.ly');
-    readplot.postMessage({task: 'ping'}, 'https://plot.ly');
-    rocplot.postMessage({task: 'ping'}, 'https://plot.ly');
-}, 100);
-
-window.addEventListener('message', function(e) {
-    var message = e.data;
-    if(message.pong) {
-        console.log('Initial pong, frame is ready to receive');
-        clearInterval(pinger);
-        go();
-        // Listening for zoom events, but you can also listen
-        // for click and hover by adding them to the array
-        qualplot.postMessage(
-            {
-                task: 'listen',
-                events: ['zoom']
-            }, 'https://plot.ly');
-        readplot.postMessage(
-            {
-                task: 'listen',
-                events: ['zoom']
-            }, 'https://plot.ly');
-        rocplot.postMessage(
-            {
-                task: 'listen',
-                events: ['zoom']
-            }, 'https://plot.ly');
-    }
-    else {
-        console.log(message);
-    }
-});
+go()
