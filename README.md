@@ -5,6 +5,8 @@ This directory contains a Shiny application and web page that runs a summary of 
 The Shiny app is run in R, and allows the user to choose serval variables that affect variant calling :
 * Whether or not to include pcr duplicate reads
 * Which p value correction method to use (Bonferroni or Benjamini Hochberg)
+* Should the DeepSNV error model be a binomial model or a betabinomial.
+* If betabinomial should the test be onesided or twosided (two sided is recommend with large amounts of PCR amiplication) 
 * What p value threshold to use
 * What mapping qualilty threshold to apply (if any)
 * What Phred score threshold to apply (if any)
