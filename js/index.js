@@ -320,6 +320,7 @@ x: [30,30],
     mode: 'lines',
     name : "Phred cutoff",
     marker : {color : 'black'},
+    showlegend: false,
     line: {
       dash: 'dashdot',
       width: 2
@@ -330,6 +331,7 @@ x: [30,42],
     y: [0,0],
     mode: 'lines',
     name : "MapQ cutoff",
+    showlegend: false,
     marker : {color : 'black'},
     line: {
       dash: 'dashdot',
@@ -370,6 +372,7 @@ function makeReadPlot(){
       y: [0,215],
       mode: 'lines',
       name : "Minimal Read Position",
+      showlegend: false,
       marker : {color : 'black'},
       line: {
         dash: 'dashdot',
@@ -381,6 +384,7 @@ function makeReadPlot(){
       y: [0,215],
       mode: 'lines',
       name : "Maximal Read Position",
+      showlegend: false,
       marker : {color : 'black'},
       line: {
         dash: 'dashdot',
