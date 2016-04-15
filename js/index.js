@@ -306,6 +306,7 @@ var trace1 = {
     y: [10,30],
     mode: 'markers',
     name : "False Positives"
+
 };
 var trace2 ={
     x: [36,42],
@@ -339,6 +340,14 @@ var data = [trace1,trace2,trace3,trace4];
 var layout = {
     title:'Quality Distributions',
     height: 400,
+    xaxis : {
+      title : "Phred",
+      ticks: 'outside'
+    },
+    yaxis : {
+      title :"MapQ",
+      ticks: 'outside'
+    }
   //  width: 350
 };
 Plotly.newPlot('qualPlot', data, layout);
@@ -383,7 +392,12 @@ function makeReadPlot(){
       title:'Distribution on read',
       height: 400,
     //  width: 400,
-      barmode : 'group'
+      barmode : 'group',
+      xaxis : {
+        title:"Mean positon on read",
+        range : [0,125],
+        ticks: 'outside'
+      }
   };
   Plotly.newPlot('readPlot', data, layout);
 }
@@ -425,8 +439,17 @@ function makeRocPlot(){
       title:'ROC curve',
       height: 400,
       //width: 450,
-      xaxis : {range : [0,0.005]},
-      yaxis : {range : [0,1]}
+      xaxis : {
+        title : "1-Specificity",
+        range : [0,0.005],
+        zeroline: false,
+        ticks: 'outside'
+      },
+      yaxis : {
+        title : "Sensitivity",
+        range : [0,1],
+        ticks: 'outside'
+      }
 };
 Plotly.newPlot('rocPlot', data, layout);
 }
