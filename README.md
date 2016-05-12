@@ -80,3 +80,32 @@ install.packages("plyr")
 install.packages("reshape2")
 ```
 *Note : The save output button doesn't work yet. I'll remove it soon. -JT*
+
+The app has been tested and works under the following sessionInfo()
+```
+sessionInfo()
+R version 3.2.3 (2015-12-10)
+Platform: x86_64-apple-darwin13.4.0 (64-bit)
+Running under: OS X 10.10.5 (Yosemite)
+
+locale:
+[1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+
+attached base packages:
+[1] stats4    parallel  stats     graphics  grDevices utils     datasets 
+[8] methods   base     
+
+other attached packages:
+ [1] reshape2_1.4.1      Biostrings_2.36.4   XVector_0.8.0      
+ [4] IRanges_2.2.9       S4Vectors_0.6.6     BiocGenerics_0.14.0
+ [7] pROC_1.8            ggplot2_2.1.0       plyr_1.8.3         
+[10] rCharts_0.4.5       shiny_0.13.0       
+
+loaded via a namespace (and not attached):
+ [1] Rcpp_0.12.4      magrittr_1.5     whisker_0.3-2    zlibbioc_1.14.0 
+ [5] munsell_0.4.3    colorspace_1.2-6 xtable_1.8-2     lattice_0.20-33 
+ [9] R6_2.1.2         stringr_1.0.0    tools_3.2.3      grid_3.2.3      
+[13] gtable_0.2.0     htmltools_0.3.5  yaml_2.1.13      digest_0.6.9    
+[17] RJSONIO_1.3-0    mime_0.4         labeling_0.3     stringi_1.0-1   
+[21] scales_0.4.0     jsonlite_0.9.19  httpuv_1.3.3    
+```
