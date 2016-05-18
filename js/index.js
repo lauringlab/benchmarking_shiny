@@ -339,7 +339,8 @@ x: [30,42],
 var data = [trace1,trace2,trace3,trace4];
 var layout = {
     title:'Quality Distributions',
-    height: 450,
+    height: 400,
+    width : 350,
     xaxis : {
       title : "Phred",
       ticks: 'outside'
