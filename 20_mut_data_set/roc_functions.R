@@ -11,8 +11,8 @@ primer.cut<-function(x){ # a helper function to do this
   subset(x,pos>start & pos<stop)
 }
 
-mfe.df<-read.csv("./reference/mfe.csv")
-reference.fasta<-"./reference/wsn33_wt_plasmid.fa" 
+mfe.df<-read.csv("~/Desktop/benchmarking_shiny/20_mut_data_set/reference/mfe.csv")
+reference.fasta<-"~/Desktop/benchmarking_shiny/20_mut_data_set/reference/wsn33_wt_plasmid.fa" 
 segments <- fasta.seqlengths(reference.fasta)
 regions.bed <- data.frame(chr = gsub("[ ].*","", names(segments)), start=12, stop=segments-13, row.names=NULL) # the univeral primers are 12 and 13 bp long
 regions.bed<-mutate(regions.bed,chr=as.character(chr))
@@ -140,7 +140,7 @@ hiseq.roc.table<-function(sum.df,cut.off,possible_tp,possible_vars,direction){
 
 
 ### Limit to coding regions ###
-coding<-read.csv("./data/wsn33.coding.bed.csv")
+coding<-read.csv("~/Desktop/benchmarking_shiny/20_mut_data_set/data/wsn33.coding.bed.csv")
 
 coding.cut<-function(x){
   chr<-unique(x$chr)

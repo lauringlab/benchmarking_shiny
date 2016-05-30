@@ -4,7 +4,7 @@ require(rCharts)
 require(plyr)
 require(ggplot2)
 
-source("./roc_functions.R")
+source("~/Desktop/benchmarking_shiny/20_mut_data_set/roc_functions.R")
 pat<-"([0-9]+)_([0-9]+)"
 
 
@@ -13,16 +13,17 @@ shinyServer(function(input, output) {
   
   dataInput<-reactive({  #### changes to data used ##########
     criteria<-paste0(input$dups,".*",input$method,".*",input$disp,".*","sum.csv$")
-    file<-list.files(path = "./processed_data",pattern = criteria,full.names = T)
+    file<-list.files(path = "~/Desktop/benchmarking_shiny/20_mut_data_set/processed_data",pattern = criteria,full.names = T)
     print(file)
 
     sum.df.raw<-read.csv(file,comment.char='#',stringsAsFactors = F)
+    print(names(sum.df.raw))
     return(sum.df.raw)
   })
   
   data.wt<-reactive({
     criteria<-paste0(input$dups,".*",input$method,".*",input$disp,".*","wt.csv$")
-    file<-list.files(path = "./processed_data",pattern = criteria,full.names = T)
+    file<-list.files(path = "~/Desktop/benchmarking_shiny/20_mut_data_set/processed_data",pattern = criteria,full.names = T)
     print(file)
 
     wt<-read.csv(file,comment.char='#',stringsAsFactors = F)
