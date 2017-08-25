@@ -342,7 +342,7 @@ var data = [trace1,trace2,trace3,trace4];
 var layout = {
     title:'Quality Distributions',
     height: 400,
-    //width : 350,
+    //width : 500,
     xaxis : {
       title : "Phred",
       ticks: 'outside'
@@ -396,7 +396,7 @@ function makeReadPlot(){
   var layout = {
       title:'Distribution on read',
       height: 400,
-    //  width: 400,
+      //width: 500,
       barmode : 'group',
       xaxis : {
         title:"Mean positon on read",
@@ -443,7 +443,7 @@ function makeRocPlot(){
   var layout = {
       title:'ROC curve',
       height: 400,
-      //width: 450,
+      //width: 500,
       xaxis : {
         title : "1-Specificity",
         range : [0,0.005],

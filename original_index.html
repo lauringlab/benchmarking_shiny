@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="UTF-8">
+    <title>Investigating SNV accuracy</title>
+
+
+
+    <link rel='stylesheet' href='./css/jquery-ui.css'>
+
+    <link rel="stylesheet" href="./css/index.css">
+    <script src='./js/jquery-2.1.4.min.js'></script>
+  <script src='./js/jquery-ui.min.js'></script>
+  <script src='./js/jquery.csv.js'></script>
+<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+
+
+
+
+  </head>
+
+  <body>
+    <div class="plot" id="qualPlot"></div>
+    <div class="plot" id="readPlot"></div>
+    <div class="plot" id="rocPlot"></div>
+	<!-- <iframe id="qualPlot" width="350" height="400" frameborder="0" seamless="seamless" scrolling="no" src= "./qual.html"></iframe>
+ <iframe id="readPlot" width="400" height="400" frameborder="0" seamless="seamless" scrolling="no" src="https://plot.ly/~jtmccr1/16.embed"></iframe>
+  <iframe id="rocPlot" width="450" height="400" frameborder="0" seamless="seamless" scrolling="no" src="https://plot.ly/~jtmccr1/21.embed"></iframe>
+-->
+<div class="row">
+    Titer
+    <div class="slider" id="Titer"></div><span class="val" id="Titer_val"></span>
+</div>
+<div class="row">
+    MapQ
+    <div class="slider" id="MapQ"></div><span class="val" id="MapQ_val"></span>
+</div>
+<div class="row">
+    Phred
+    <div class="slider" id="Phred"></div>
+    <span class="val" id="Phred_val"></span>
+</div>
+<div class="row">
+    Read Position minimum
+    <div class="slider" id="ReadPosMin"></div>
+    <span class="val" id="ReadPosMin_val"></span>
+</div>
+<div class="row">
+    Read Position maximum
+    <div class="slider" id="ReadPosMax"></div>
+    <span class="val" id="ReadPosMax_val"></span>
+</div>
+  <script src="./js/index.js"></script>
+
+
+
+
+  </body>
+</html>

@@ -1,11 +1,9 @@
-<!DOCTYPE html>
-<html >
-  <head>
-    <meta charset="UTF-8">
-    <title>Investigating SNV accuracy</title>
-
-
-
+<!DOCTYPE HTML>
+<!--
+	Fractal by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
     <link rel='stylesheet' href='./css/jquery-ui.css'>
 
     <link rel="stylesheet" href="./css/index.css">
@@ -13,47 +11,446 @@
   <script src='./js/jquery-ui.min.js'></script>
   <script src='./js/jquery.csv.js'></script>
 <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+<html>
+	<head>
+		<title>NGS sequencing accuracy</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		<!--[if lte IE 8]><script src="assets/js/ie/html5shiv.js"></script><![endif]-->
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<!--[if lte IE 8]><link rel="stylesheet" href="assets/css/ie8.css" /><![endif]-->
+		<!--[if lte IE 9]><link rel="stylesheet" href="assets/css/ie9.css" /><![endif]-->
+	</head>
+	<body id="top">
 
+		<!-- Header -->
+			<header id="header">
+				<div class="content">
+					<h1><a href="#">Benchmarking variant detection<br /> in viral populations</a></h1>
+					<p>Interactive figures for the analysis presented in <br/><a href="http://jvi.asm.org/content/early/2016/05/12/JVI.00667-16">McCrone JT and Lauring AS, J. Virol. 90(15):6884, 2016</a></p> 
+					
+					<ul class="actions">
+						<!-- <li><a href="#" class="button special icon fa-download">Download</a></li> -->
+						<li><a href="#one" class="button icon fa-chevron-down scrolly">Learn More</a></li>
+					</ul>
+				</div>
+				<div class="image"><img src="images/Hiseq_setup.png" alt="" /></div></div>
+			</header>
 
+		<!-- One -->
+			<section id="one" class="wrapper">
+      <div class="inner">
+				<header class="content">
+					<h2> Summary </h2>
+          <p>Advances in sequencing technology have made it feasible to sequence patient-derived viral samples at a level sufficient for detection of rare mutations. These high-throughput, cost-effective methods are revolutionizing the study of within-host viral diversity. However, these techniques are error prone, and the methods commonly used to control for these errors have not been validated under the conditions that characterize patient-derived samples. In our study we showed that these conditions affect measurements of viral diversity. We found that the accuracy of previously benchmarked analysis pipelines were greatly reduced under patient-derived conditions. By sequencing known mixtures of single mutants we were able to identify biases in our method and improve our accuracy to acceptable levels. Here, we provide a "light", interactive version of the main figure so others may explore the impact different quality thresholds have on the accuracy of the data. A fuller shiny application can be downloaded below and provides more options for variant identification. </p>
+					
+				</header>
+        </div>
+				<ul class="icons major">
+					<!-- <li><span class="icon fa-camera-retro"><span class="label">Shoot</span></span></li>
+					<li><span class="icon fa-refresh"><span class="label">Process</span></span></li>
+					<li><span class="icon fa-cloud"><span class="label">Upload</span></span></li>-->
+				</ul>
+			</section>
+        
+		<!-- Two -->
+			<section id="two" class="wrapper2">
+        <div class="inner alt">
+          <section class="spotlight">
 
+            <div class="plot" id="qualPlot" ></div>
+            <div class="plot" id="readPlot" ></div>
+            <div class="plot" id="rocPlot"></div>
 
-  </head>
+          </section>
+          <section class="spotlight">
+          <div class=sliders>
+            <h4>  Titer (log10) </h4>
+              <div class="row">
+                <div class="slider" id="Titer"></div><span class="val" id="Titer_val"></span>
+              </div>
+            </div>
+            <div class="sliders">
+                <h4> Read Position minimum </h4>
+              <div class="row">
+                <div class="slider" id="ReadPosMin"></div>
+                <span class="val" id="ReadPosMin_val"></span>
+              </div>
+                  <h4> Read Position maximum </h4>
+              <div class="row">
+                <div class="slider" id="ReadPosMax"></div>
+                <span class="val" id="ReadPosMax_val"></span>
+              </div>
+            </div>
+            <div class="sliders">
+              <h4> MapQ  </h4>
+            <div class="row">
+              <div class="slider" id="MapQ"></div>
+              <span class="val" id="MapQ_val"></span>
+            </div>
+            <h4>  Phred </h4>
+              <div class="row">
+                
+                <div class="slider" id="Phred"></div>
+                <span class="val" id="Phred_val"></span>
+              </div>
+            </div>
+            
 
-  <body>
-    <div class="plot" id="qualPlot"></div>
-    <div class="plot" id="readPlot"></div>
-    <div class="plot" id="rocPlot"></div>
-	<!-- <iframe id="qualPlot" width="350" height="400" frameborder="0" seamless="seamless" scrolling="no" src= "./qual.html"></iframe>
- <iframe id="readPlot" width="400" height="400" frameborder="0" seamless="seamless" scrolling="no" src="https://plot.ly/~jtmccr1/16.embed"></iframe>
-  <iframe id="rocPlot" width="450" height="400" frameborder="0" seamless="seamless" scrolling="no" src="https://plot.ly/~jtmccr1/21.embed"></iframe>
--->
-<div class="row">
-    Titer
-    <div class="slider" id="Titer"></div><span class="val" id="Titer_val"></span>
-</div>
-<div class="row">
-    MapQ
-    <div class="slider" id="MapQ"></div><span class="val" id="MapQ_val"></span>
-</div>
-<div class="row">
-    Phred
-    <div class="slider" id="Phred"></div>
-    <span class="val" id="Phred_val"></span>
-</div>
-<div class="row">
-    Read Position minimum
-    <div class="slider" id="ReadPosMin"></div>
-    <span class="val" id="ReadPosMin_val"></span>
-</div>
-<div class="row">
-    Read Position maximum
-    <div class="slider" id="ReadPosMax"></div>
-    <span class="val" id="ReadPosMax_val"></span>
-</div>
-  <script src="./js/index.js"></script>
+          </section>
 
+		<!-- Three -->
+			<section id="three" class="wrapper style2 special">
+				<header class="major">
+					<p>If you enjoyed this interactive figure and would like to explore the data more <br />
+					 be sure to check out the full Shiny app.</p>
+				</header>
+				<ul class="actions">
+					<li><a href="https://github.com/lauringlab/benchmarking_shiny" class="button">See the full Shiny App!</a></li>
+          <li><a href="http://jvi.asm.org/content/early/2016/05/12/JVI.00667-16" class="button">Read the paper</a></li>
+				</ul>
+			</section>
+<script src="./js/index.js"></script>
 
+		<!-- Four -->
+		<!--
+			<section id="four" class="wrapper">
+				<div class="inner">
 
+					<header class="major">
+						<h2>Elements</h2>
+					</header>
 
-  </body>
+					<section>
+						<h4>Text</h4>
+						<p>This is <b>bold</b> and this is <strong>strong</strong>. This is <i>italic</i> and this is <em>emphasized</em>.
+						This is <sup>superscript</sup> text and this is <sub>subscript</sub> text.
+						This is <u>underlined</u> and this is code: <code>for (;;) { ... }</code>. Finally, <a href="#">this is a link</a>.</p>
+						<hr />
+						<header>
+							<h4>Heading with a Subtitle</h4>
+							<p>Lorem ipsum dolor sit amet nullam id egestas urna aliquam</p>
+						</header>
+						<p>Nunc lacinia ante nunc ac lobortis. Interdum adipiscing gravida odio porttitor sem non mi integer non faucibus ornare mi ut ante amet placerat aliquet. Volutpat eu sed ante lacinia sapien lorem accumsan varius montes viverra nibh in adipiscing blandit tempus accumsan.</p>
+						<header>
+							<h5>Heading with a Subtitle</h5>
+							<p>Lorem ipsum dolor sit amet nullam id egestas urna aliquam</p>
+						</header>
+						<p>Nunc lacinia ante nunc ac lobortis. Interdum adipiscing gravida odio porttitor sem non mi integer non faucibus ornare mi ut ante amet placerat aliquet. Volutpat eu sed ante lacinia sapien lorem accumsan varius montes viverra nibh in adipiscing blandit tempus accumsan.</p>
+						<hr />
+						<h2>Heading Level 2</h2>
+						<h3>Heading Level 3</h3>
+						<h4>Heading Level 4</h4>
+						<h5>Heading Level 5</h5>
+						<h6>Heading Level 6</h6>
+						<hr />
+						<h5>Blockquote</h5>
+						<blockquote>Fringilla nisl. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan faucibus. Vestibulum ante ipsum primis in faucibus lorem ipsum dolor sit amet nullam adipiscing eu felis.</blockquote>
+						<h5>Preformatted</h5>
+						<pre><code>i = 0;
+
+while (!deck.isInOrder()) {
+  print 'Iteration ' + i;
+  deck.shuffle();
+  i++;
+}
+
+print 'It took ' + i + ' iterations to sort the deck.';</code></pre>
+					</section>
+
+					<section>
+						<h4>Lists</h4>
+						<div class="row">
+							<div class="6u 12u$(medium)">
+								<h5>Unordered</h5>
+								<ul>
+									<li>Dolor pulvinar etiam.</li>
+									<li>Sagittis adipiscing.</li>
+									<li>Felis enim feugiat.</li>
+								</ul>
+								<h5>Alternate</h5>
+								<ul class="alt">
+									<li>Dolor pulvinar etiam.</li>
+									<li>Sagittis adipiscing.</li>
+									<li>Felis enim feugiat.</li>
+								</ul>
+							</div>
+							<div class="6u$ 12u$(medium)">
+								<h5>Ordered</h5>
+								<ol>
+									<li>Dolor pulvinar etiam.</li>
+									<li>Etiam vel felis viverra.</li>
+									<li>Felis enim feugiat.</li>
+									<li>Dolor pulvinar etiam.</li>
+									<li>Etiam vel felis lorem.</li>
+									<li>Felis enim et feugiat.</li>
+								</ol>
+								<h5>Icons</h5>
+								<ul class="icons">
+									<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+									<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+									<li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
+									<li><a href="#" class="icon fa-github"><span class="label">Github</span></a></li>
+								</ul>
+							</div>
+						</div>
+						<h5>Actions</h5>
+						<div class="row">
+							<div class="6u 12u$(medium)">
+								<ul class="actions">
+									<li><a href="#" class="button special">Default</a></li>
+									<li><a href="#" class="button">Default</a></li>
+								</ul>
+								<ul class="actions small">
+									<li><a href="#" class="button special small">Small</a></li>
+									<li><a href="#" class="button small">Small</a></li>
+								</ul>
+								<ul class="actions vertical">
+									<li><a href="#" class="button special">Default</a></li>
+									<li><a href="#" class="button">Default</a></li>
+								</ul>
+								<ul class="actions vertical small">
+									<li><a href="#" class="button special small">Small</a></li>
+									<li><a href="#" class="button small">Small</a></li>
+								</ul>
+							</div>
+							<div class="6u 12u$(medium)">
+								<ul class="actions vertical">
+									<li><a href="#" class="button special fit">Default</a></li>
+									<li><a href="#" class="button fit">Default</a></li>
+								</ul>
+								<ul class="actions vertical small">
+									<li><a href="#" class="button special small fit">Small</a></li>
+									<li><a href="#" class="button small fit">Small</a></li>
+								</ul>
+							</div>
+						</div>
+					</section>
+
+					<section>
+						<h4>Table</h4>
+						<h5>Default</h5>
+						<div class="table-wrapper">
+							<table>
+								<thead>
+									<tr>
+										<th>Name</th>
+										<th>Description</th>
+										<th>Price</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>Item One</td>
+										<td>Ante turpis integer aliquet porttitor.</td>
+										<td>29.99</td>
+									</tr>
+									<tr>
+										<td>Item Two</td>
+										<td>Vis ac commodo adipiscing arcu aliquet.</td>
+										<td>19.99</td>
+									</tr>
+									<tr>
+										<td>Item Three</td>
+										<td> Morbi faucibus arcu accumsan lorem.</td>
+										<td>29.99</td>
+									</tr>
+									<tr>
+										<td>Item Four</td>
+										<td>Vitae integer tempus condimentum.</td>
+										<td>19.99</td>
+									</tr>
+									<tr>
+										<td>Item Five</td>
+										<td>Ante turpis integer aliquet porttitor.</td>
+										<td>29.99</td>
+									</tr>
+								</tbody>
+								<tfoot>
+									<tr>
+										<td colspan="2"></td>
+										<td>100.00</td>
+									</tr>
+								</tfoot>
+							</table>
+						</div>
+
+						<h5>Alternate</h5>
+						<div class="table-wrapper">
+							<table class="alt">
+								<thead>
+									<tr>
+										<th>Name</th>
+										<th>Description</th>
+										<th>Price</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>Item One</td>
+										<td>Ante turpis integer aliquet porttitor.</td>
+										<td>29.99</td>
+									</tr>
+									<tr>
+										<td>Item Two</td>
+										<td>Vis ac commodo adipiscing arcu aliquet.</td>
+										<td>19.99</td>
+									</tr>
+									<tr>
+										<td>Item Three</td>
+										<td> Morbi faucibus arcu accumsan lorem.</td>
+										<td>29.99</td>
+									</tr>
+									<tr>
+										<td>Item Four</td>
+										<td>Vitae integer tempus condimentum.</td>
+										<td>19.99</td>
+									</tr>
+									<tr>
+										<td>Item Five</td>
+										<td>Ante turpis integer aliquet porttitor.</td>
+										<td>29.99</td>
+									</tr>
+								</tbody>
+								<tfoot>
+									<tr>
+										<td colspan="2"></td>
+										<td>100.00</td>
+									</tr>
+								</tfoot>
+							</table>
+						</div>
+					</section>
+
+					<section>
+						<h4>Buttons</h4>
+						<ul class="actions">
+							<li><a href="#" class="button special">Special</a></li>
+							<li><a href="#" class="button">Default</a></li>
+						</ul>
+						<ul class="actions">
+							<li><a href="#" class="button big">Big</a></li>
+							<li><a href="#" class="button">Default</a></li>
+							<li><a href="#" class="button small">Small</a></li>
+						</ul>
+						<ul class="actions fit">
+							<li><a href="#" class="button fit">Fit</a></li>
+							<li><a href="#" class="button special fit">Fit</a></li>
+							<li><a href="#" class="button fit">Fit</a></li>
+						</ul>
+						<ul class="actions fit small">
+							<li><a href="#" class="button special fit small">Fit + Small</a></li>
+							<li><a href="#" class="button fit small">Fit + Small</a></li>
+							<li><a href="#" class="button special fit small">Fit + Small</a></li>
+						</ul>
+						<ul class="actions">
+							<li><a href="#" class="button special icon fa-download">Icon</a></li>
+							<li><a href="#" class="button icon fa-download">Icon</a></li>
+						</ul>
+						<ul class="actions">
+							<li><span class="button special disabled">Disabled</span></li>
+							<li><span class="button disabled">Disabled</span></li>
+						</ul>
+					</section>
+
+					<section>
+						<h4>Form</h4>
+						<form method="post" action="#">
+							<div class="row uniform">
+								<div class="6u 12u$(xsmall)">
+									<input type="text" name="demo-name" id="demo-name" value="" placeholder="Name" />
+								</div>
+								<div class="6u$ 12u$(xsmall)">
+									<input type="email" name="demo-email" id="demo-email" value="" placeholder="Email" />
+								</div>
+								<div class="12u$">
+									<div class="select-wrapper">
+										<select name="demo-category" id="demo-category">
+											<option value="">- Category -</option>
+											<option value="1">Manufacturing</option>
+											<option value="1">Shipping</option>
+											<option value="1">Administration</option>
+											<option value="1">Human Resources</option>
+										</select>
+									</div>
+								</div>
+								<div class="4u 12u$(small)">
+									<input type="radio" id="demo-priority-low" name="demo-priority" checked>
+									<label for="demo-priority-low">Low</label>
+								</div>
+								<div class="4u 12u$(small)">
+									<input type="radio" id="demo-priority-normal" name="demo-priority">
+									<label for="demo-priority-normal">Normal</label>
+								</div>
+								<div class="4u$ 12u$(small)">
+									<input type="radio" id="demo-priority-high" name="demo-priority">
+									<label for="demo-priority-high">High</label>
+								</div>
+								<div class="6u 12u$(small)">
+									<input type="checkbox" id="demo-copy" name="demo-copy">
+									<label for="demo-copy">Email me a copy</label>
+								</div>
+								<div class="6u$ 12u$(small)">
+									<input type="checkbox" id="demo-human" name="demo-human" checked>
+									<label for="demo-human">Not a robot</label>
+								</div>
+								<div class="12u$">
+									<textarea name="demo-message" id="demo-message" placeholder="Enter your message" rows="6"></textarea>
+								</div>
+								<div class="12u$">
+									<ul class="actions">
+										<li><input type="submit" value="Send Message" class="special" /></li>
+										<li><input type="reset" value="Reset" /></li>
+									</ul>
+								</div>
+							</div>
+						</form>
+					</section>
+
+					<section>
+						<h4>Image</h4>
+						<h5>Fit</h5>
+						<div class="box alt">
+							<div class="row uniform">
+								<div class="12u"><span class="image fit"><img src="images/pic04.jpg" alt="" /></span></div>
+								<div class="4u"><span class="image fit"><img src="images/pic01.jpg" alt="" /></span></div>
+								<div class="4u"><span class="image fit"><img src="images/pic02.jpg" alt="" /></span></div>
+								<div class="4u"><span class="image fit"><img src="images/pic03.jpg" alt="" /></span></div>
+								<div class="4u"><span class="image fit"><img src="images/pic02.jpg" alt="" /></span></div>
+								<div class="4u"><span class="image fit"><img src="images/pic03.jpg" alt="" /></span></div>
+								<div class="4u"><span class="image fit"><img src="images/pic01.jpg" alt="" /></span></div>
+								<div class="4u"><span class="image fit"><img src="images/pic03.jpg" alt="" /></span></div>
+								<div class="4u"><span class="image fit"><img src="images/pic01.jpg" alt="" /></span></div>
+								<div class="4u"><span class="image fit"><img src="images/pic02.jpg" alt="" /></span></div>
+							</div>
+						</div>
+						<h5>Left &amp; Right</h5>
+						<p><span class="image left"><img src="images/pic05.jpg" alt="" /></span>Fringilla nisl. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent.</p>
+						<p><span class="image right"><img src="images/pic05.jpg" alt="" /></span>Fringilla nisl. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent.</p>
+					</section>
+
+				</div>
+			</section>
+		-->
+
+		<!-- Footer -->
+			<footer id="footer">
+      <h3> Contact information </h3>
+				<ul class="icons">
+					<li><a href="https://sites.google.com/a/umich.edu/the-lauring-lab/home" class="icon fa-home"><span class="label">website</span></a></li>
+					<li><a href="https://twitter.com/LauringLab" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+          <li><a href="https://github.com/lauringlab" class="icon fa-github"><span class="label">github</span></a></li>
+				</ul> 
+				<p class="copyright">&copy; LAURINGLAB. Credits: <a href="http://html5up.net">HTML5 UP</a></p>
+			</footer>
+
+		<!-- Scripts -->
+			<script src="assets/js/jquery.min.js"></script>
+			<script src="assets/js/jquery.scrolly.min.js"></script>
+			<script src="assets/js/skel.min.js"></script>
+			<script src="assets/js/util.js"></script>
+			<!--[if lte IE 8]><script src="assets/js/ie/respond.min.js"></script><![endif]-->
+			<script src="assets/js/main.js"></script>
+
+	</body>
 </html>
